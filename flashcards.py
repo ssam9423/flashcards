@@ -68,6 +68,7 @@ def start_program():
             print("Press [2] to remove a flashcard.")
             print("Press [3] to test all flashcards.")
             print("Press [4] to do a daily review.")
+            print("Press [s] to save your progress.")
             print("Press [q] to quit.")
 
 
