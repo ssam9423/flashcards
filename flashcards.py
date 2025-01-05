@@ -55,7 +55,7 @@ def start_program():
                 test_all()
             elif option == '4':
                 daily_ids = daily_review()
-                test_all(test_ids=daily_ids)
+                test_all(test_ids=daily_ids, daily=True)
             elif option.lower() == 's':
                 # Write updated data to new csv
                 db.to_csv(fc_csv_name, index=False) 
@@ -130,7 +130,7 @@ def remove_fc():
 #   2 - All Flashcards have been tested
 #   3 - Tester choses to end test without testing all Flashcards
 # Tests all flashcards based on test_ids and test_set
-def test_all(test_ids=all_ids, test_set=db, front=fc_front, back=fc_back):
+def test_all(test_ids=all_ids, test_set=db, front=fc_front, back=fc_back, daily=False):
     # End if there are no Flashcards to test
     if len(test_ids) == 0:
         print("There are no flashcards to test")
@@ -217,7 +217,8 @@ def test_all(test_ids=all_ids, test_set=db, front=fc_front, back=fc_back):
                     # Update Incorrect and Last Correct
                     test_set.iloc[index, incorr] += 1
                     test_set.iloc[index, prev_corr] = False
-                    test_set.iloc[index, last_date] = today.strftime(date_format)
+                    if daily:
+                        test_set.iloc[index, last_date] = today.strftime(date_format)
                     num_test += 1
                     front_side = True
                     break
@@ -227,7 +228,8 @@ def test_all(test_ids=all_ids, test_set=db, front=fc_front, back=fc_back):
                     # Update Correct and Last Correct
                     test_set.iloc[index, corr] += 1
                     test_set.iloc[index, prev_corr] = True
-                    test_set.iloc[index, last_date] = today.strftime(date_format)
+                    if daily:
+                        test_set.iloc[index, last_date] = today.strftime(date_format)
                     num_test += 1
                     front_side = True
                     break
